@@ -25,7 +25,8 @@ export default function Footer() {
     dispatch(statusChanged(status));
   };
 
-  const remainingTodos = todos.filter((todo) => !todo.completed).length;
+  const remainingTodos =
+    todos && todos.filter((todo) => !todo.completed).length;
 
   const colorChangeHandler = (color) => {
     if (colors.includes(color)) {
