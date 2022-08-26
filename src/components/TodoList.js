@@ -1,6 +1,7 @@
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import fetchTodos from "../redux/todos/thunk/fetchTodos";
+import CompleteTodo from "./CompletedTodo";
 import Todo from "./Todo";
 
 export default function TodoList() {
@@ -36,12 +37,17 @@ export default function TodoList() {
   };
 
   return (
-    <div className="mt-2 text-gray-700 text-sm max-h-[300px] overflow-y-auto">
+    <div className="mt-2 text-gray-700 text-sm max-h-[300px] overflow-y-auto border-2">
       {todos &&
         todos
           .filter(filterByStatus)
           .filter(filterByColor)
-          .map((todo) => <Todo todo={todo} key={todo.id} />)}
+          .map(
+            (todo) =>
+              todo.completed === false && (
+                <Todo todo={todo} key={todo.id} />
+              )
+          )}
     </div>
   );
 }

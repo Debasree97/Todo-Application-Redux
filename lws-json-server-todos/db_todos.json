@@ -2,36 +2,30 @@
   "todos": [
     {
       "id": 1,
-      "text": "Learn Vanilla JavaScript",
-      "completed": true,
+      "text": "Learn Vanilla JS",
+      "completed": false,
       "color": "yellow"
     },
     {
-      "id": 2,
-      "text": "Learn Modern ES6+ JavaScript",
-      "completed": true,
-      "color": "red"
-    },
-    {
       "id": 3,
-      "text": "Learn React JS",
+      "text": "Learn Next JS",
       "completed": true,
       "color": "yellow"
     },
     {
       "text": "Learn Redux Basics",
-      "completed": true,
+      "completed": false,
       "id": 4,
       "color": "red"
     },
     {
-      "text": "Learn Redux fundamentals",
-      "completed": true,
+      "text": "Learn Redux fundamental",
+      "completed": false,
       "id": 5,
       "color": "green"
     },
     {
-      "text": "learn Redux",
+      "text": "learn MongoDB",
       "completed": false,
       "id": 6,
       "color": "red"

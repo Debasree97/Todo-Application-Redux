@@ -1,13 +1,20 @@
 import cancelImage from "../assets/images/cancel.png";
-import { useDispatch } from "react-redux"; 
+import editImage from "../assets/images/edit.png";
+import { useDispatch } from "react-redux";
 import updateStatus from "../redux/todos/thunk/updateStatus";
 import updateColor from "../redux/todos/thunk/updateColor";
 import deleteTodo from "../redux/todos/thunk/deleteTodo";
+import updatedText from "../redux/todos/thunk/updatedText";
+import { useCallback, useEffect, useState } from "react";
+import { debounce } from "lodash";
+// import { updatedText } from "../redux/todos/actionCreators";
 
 export default function Todo({ todo }) {
   const { text, id, completed, color } = todo;
-
   const dispatch = useDispatch();
+  // const [modalIsOpen, setIsOpen] = useState(false);
+  const [isEdit, setIsEdit] = useState(false);
+  const [search, setSearch] = useState(text);
 
   const statusChangeHandler = (todoId) => {
     dispatch(updateStatus(todoId, completed));
@@ -20,6 +27,35 @@ export default function Todo({ todo }) {
   const deleteHandler = (todoId) => {
     dispatch(deleteTodo(todoId));
   };
+
+  const formVisible = (value) => {
+    setIsEdit(value);
+  };
+
+  // debounce
+
+  const updateTextField = (search, id) => {
+    dispatch(updatedText(search, id));
+  };
+
+  const updateSearch = (id) => {
+    updateTextField(search, id);
+    setIsEdit(false);
+  };
+
+  const delayedSearch = useCallback(debounce(updateTextField, 500), [search]);
+
+  const onChange = (e) => {
+    e.preventDefault();
+    setSearch(e.target.value);
+  };
+
+  useEffect(() => {
+    delayedSearch();
+    return delayedSearch.cancel;
+  }, [search, delayedSearch]);
+
+  
 
   return (
     <div className="flex justify-start items-center p-2 hover:bg-gray-100 hover:transition-all space-x-4 border-b border-gray-400/20 last:border-0">
@@ -46,9 +82,26 @@ export default function Todo({ todo }) {
         )}
       </div>
 
-      <div className={`select-none flex-1 ${completed && "line-through"}`}>
-        {text}
-      </div>
+      {isEdit ? (
+        <form className="select-none flex-1">
+          <input
+            value={search}
+            onChange={onChange}
+            type="text"
+            className="border-2 p-1"
+          />
+          <button
+            className="border-2 p-1 bg-green-400"
+            onClick={() => {
+              updateSearch(id);
+            }}
+          >
+            Submit
+          </button>
+        </form>
+      ) : (
+        <div className="select-none flex-1">{text}</div>
+      )}
 
       <div
         onClick={() => {
@@ -76,6 +129,15 @@ export default function Todo({ todo }) {
           colorChangeHandler(id, "red");
         }}
       ></div>
+
+      <img
+        onClick={() => {
+          formVisible(true);
+        }}
+        src={editImage}
+        className="flex-shrink-0 w-4 h-4 ml-2 cursor-pointer"
+        alt="Edit"
+      />
 
       <img
         onClick={() => {

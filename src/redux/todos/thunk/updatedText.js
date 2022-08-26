@@ -1,11 +1,11 @@
-import { toggled } from "../actionCreators";
+import { updateText } from "../actionCreators";
 
-const updateStatus = (todoId, currentStatus) => {
+const updatedText = ( texts,todoId) => {
   return async (dispatch) => {
     const response = await fetch(`http://localhost:9000/todos/${todoId}`, {
       method: "PATCH",
       body: JSON.stringify({
-        completed: !currentStatus,
+        text: texts,
       }),
       headers: {
         "Content-type": "application/json;charset=UTF-8",
@@ -13,8 +13,8 @@ const updateStatus = (todoId, currentStatus) => {
     });
     const todo = await response.json();
 
-    dispatch(toggled(todo.id));
+    dispatch(updateText(todo.id, todo.text));
   };
 };
 
-export default updateStatus;
+export default updatedText;

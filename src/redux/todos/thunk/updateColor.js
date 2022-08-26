@@ -8,7 +8,7 @@ const updateColor = (todoId, color) => {
         color:color,
       }),
       headers: {
-        "COntent-type": "application/json;charset=UTF-8",
+        "Content-type": "application/json;charset=UTF-8",
       },
     });
     const todo = await response.json();
